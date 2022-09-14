@@ -1,0 +1,7 @@
+.account
+.anchor
+.DS_Store
+target
+!target/deploy/*
+**/*.rs.bk
+node_modules

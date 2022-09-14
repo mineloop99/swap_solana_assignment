@@ -1,0 +1,25 @@
+[package]
+name = "swap_solana_assignment"
+version = "0.1.0"
+description = "Swap Remitano Assigment for Solana Blockchain"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "swap_solana_assignment"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[profile.release]
+overflow-checks = true
+
+[dependencies]
+anchor-lang = "0.24.2"
+spl-associated-token-account = "1.0.5"
+anchor-spl = "0.24.2"
+spl-token = "3.3.0"

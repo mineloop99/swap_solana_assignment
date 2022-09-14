@@ -1,0 +1,13 @@
+[features]
+seeds = false
+[programs.devnet]
+swap_solana_assignment = "Frp5LsjVZHbxjua8JTuAhYCFQTv7qpYvqZcrmXB8Prsz"
+
+[provider]
+cluster = "https://api.devnet.solana.com"
+url = "https://api.devnet.solana.com"
+wallet = ".account/operator_wallet.json"
+
+[scripts]
+test = "mocha -r ts-node/register -t 100000000 'tests/**/*.ts'"
+deploy = "yarn ts-mocha -p ./tsconfig.json -t 1000000 scripts/**/*.ts"
