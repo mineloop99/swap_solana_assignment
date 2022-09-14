@@ -12,7 +12,7 @@ const associated_token_program_pubkey = new anchor.web3.PublicKey("ATokenGPvbdGV
 describe("Testing", () => {
   // INIT
   const connection = new Connection(
-    clusterApiUrl('devnet'),
+    clusterApiUrl('testnet'),
     'confirmed'
   );
 const programId = new anchor.web3.PublicKey(config["program_id"]);

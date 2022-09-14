@@ -1,0 +1,227 @@
+{
+  "version": "0.1.0",
+  "name": "swap",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "swapStateAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fromTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "swap",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "swapStateAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fromTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "isSwapSolToSplToken",
+          "type": "bool"
+        }
+      ],
+      "returns": null
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SwapState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "decimals",
+            "type": "u32"
+          },
+          {
+            "name": "rateSolToToken",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TokenProgramMismatch",
+      "msg": "Error Token Program not Match!"
+    },
+    {
+      "code": 6001,
+      "name": "UserNotAuthorized",
+      "msg": "Error User Not Authorized!"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidProgramAuthority",
+      "msg": "User is Not Owner of Program!"
+    },
+    {
+      "code": 6003,
+      "name": "InsufficientAmount",
+      "msg": "Insufficient Token Or SOL"
+    },
+    {
+      "code": 6004,
+      "name": "TokenAddressNotMatch",
+      "msg": "Token Address Not Matchs"
+    }
+  ],
+  "metadata": {
+    "address": "Frp5LsjVZHbxjua8JTuAhYCFQTv7qpYvqZcrmXB8Prsz"
+  }
+}
