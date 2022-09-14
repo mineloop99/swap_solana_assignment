@@ -2,7 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import {SystemProgram,SYSVAR_RENT_PUBKEY, SYSVAR_RECENT_BLOCKHASHES_PUBKEY, clusterApiUrl, Connection,PublicKey,AccountMeta, LAMPORTS_PER_SOL,Message } from "@solana/web3.js" 
 import {createMint,getAssociatedTokenAddress, getOrCreateAssociatedTokenAccount, mintTo, Account } from '@solana/spl-token';
-import config_operator_test_wallet from "../.account/operator_test_wallet.json"
+import config_operator_wallet from "../.account/operator_wallet.json"
 import config from "../config.json"
 const NULL_ADDRESS = new PublicKey("dead111111111111111111111111111111111111111");
 const TOKEN_E9 = 1000000000;
@@ -25,7 +25,7 @@ const idl = JSON.parse(
   const program = new anchor.Program(idl, programId, provider);
  
   
-  const operator = anchor.web3.Keypair.fromSecretKey(new Uint8Array(config_operator_test_wallet));
+  const operator = anchor.web3.Keypair.fromSecretKey(new Uint8Array(config_operator_wallet));
   const swap_state_account = anchor.web3.Keypair.generate();
   const userTest = anchor.web3.Keypair.generate();
   
@@ -61,7 +61,7 @@ const idl = JSON.parse(
         mintAccount: mint_pubkey, 
         systemProgram: SystemProgram.programId,
       },
-        signers: [swap_state_account]
+        signers: [swap_state_account, operator]
       });
     console.log("\tSwap State:" + swap_state_account.publicKey.toBase58());
     console.log("\tMint Pubkey: ", mint_pubkey.toBase58());
