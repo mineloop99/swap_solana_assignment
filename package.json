@@ -1,16 +1,13 @@
 {
     "scripts": {
         "build": "anchor build && ./scripts/cp_idl.sh",
-        "test": "mocha -r ts-node/register -t 100000000 'tests/**/*.ts'",
-        "deploy:t": "(anchor build) | (anchor deploy --provider.cluster testnet)",
-        "deploy:d": "(anchor build) | (anchor deploy --provider.cluster devnet)",
+        "init:testnet": "anchor run deploy --provider.cluster testnet",
+        "init:devnet": "anchor run deploy --provider.cluster devnet",
+        "deploy:testnet": "(anchor build) | (anchor deploy --provider.cluster testnet)",
+        "deploy:devnet": "(anchor build) | (anchor deploy --provider.cluster devnet)",
         "build verifiable": "anchor build --verifiable -s '1.10.25' -p hunny_play -d 'projectserum/build:v0.24.1'",
-        "d": "anchor test --skip-deploy --skip-build --provider.cluster devnet",
-        "t": "anchor test --skip-deploy --skip-build --provider.cluster testnet",
-        "all": "(yarn d) | (yarn t)",
-        "pub": "rm -rf ./dist && tsc && npm version patch --force && npm publish --access public",
-        "update:apps": "cd ./app/gem-bank && yarn update && cd ../gem-farm && yarn update",
-        "update:anchor": "yarn upgrade @project-serum/anchor --latest --check-files"
+        "test:devnet": "anchor test --skip-deploy --skip-build --provider.cluster devnet",
+        "test:testnet": "anchor test --skip-deploy --skip-build --provider.cluster testnet",
     },
     "dependencies": {
         "@project-serum/anchor": "^0.24.1",

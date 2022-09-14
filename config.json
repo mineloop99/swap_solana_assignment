@@ -2,5 +2,6 @@
     "operator_wallet": "HhXLdaQxft5yqZb9tYHg2pXoXdBucgB1HW58V6kLYXCZ",
     "mint_token_account": "2PjtLwhWKgRMRvRqqz2KU2Gg7QEPrbS3vHa7eJKVRTJy",
     "program_id": "Frp5LsjVZHbxjua8JTuAhYCFQTv7qpYvqZcrmXB8Prsz",
-    "swap_state": "CYKd5xZdPmTBgDbTAxf9exNCwZDwdTzg7c8grFeBKWEW"
+    "swap_state": "CYKd5xZdPmTBgDbTAxf9exNCwZDwdTzg7c8grFeBKWEW",
+    "pda_account": "2azBdL5A6xdfKS5kDYSDBfqpAmcMRvvC7oQZfVuaoSnU"
 }
