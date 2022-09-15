@@ -14,5 +14,7 @@ Solana:
   Start
    - cd swap-app && yarn && yarn start
 
+LIVE: swap-solana.netlify.app
+
 
 Recommend to deploy at DEV enviroment because live server is sometime crashed by free Serverless
