@@ -1,9 +1,10 @@
 import * as anchor from "@project-serum/anchor";
-import './App.css'; 
-import { Connection, SystemProgram, clusterApiUrl, PublicKey, SYSVAR_RENT_PUBKEY, LAMPORTS_PER_SOL } from '@solana/web3.js';
-import { AnchorProvider, Program } from '@project-serum/anchor'; 
-import address_config from './address_config.json'
+import { AnchorProvider, Program } from '@project-serum/anchor';
 import { getAssociatedTokenAddress } from "@solana/spl-token";
+import { Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
+import { useState } from 'react';
+import address_config from './address_config.json';
+import './App.css';
 import idls from "./idls/idl.json";
 // For "Property 'solana' does not exist on type 'Window & typeof globalThis'" error.
 interface Window {
@@ -11,24 +12,6 @@ interface Window {
 }
 declare let window: Window; 
 function App() {
-  const idl = JSON.parse(
-    JSON.stringify(idls)
-  );
-  const connectWallet = async () => {
-  try {
-      const resp = await window.solana.connect();
-      console.log("Conneted! Public Key: ", resp.publicKey.toString());
-  } catch (err) {
-      console.log(err);
-      // => { code: 4001, message: 'User rejected the request.' }
-  }
-};
-
-const disconnectWallet = async () => {
-  window.solana.disconnect();
-  window.solana.on('disconnect', () => console.log("Disconnected!"));
-};
-
   async function getProvider() {
     const network = "https://explorer-api.testnet.solana.com";
     const connection = new Connection(network, "processed");
@@ -42,8 +25,34 @@ const disconnectWallet = async () => {
     );
     return provider;
   }
+  const [amount, setAmount] = useState("0");
+  const [amountToken, setAmountToken] = useState("0");
+  const [isUseSol, setIsUseSol] = useState(true); 
+  const [txHash, setTxHash] = useState("this is transaction hash");
+  const [userAddress, setUserAddress] = useState("userAddress"); 
+  const idl = JSON.parse(
+    JSON.stringify(idls)
+  );
+  const connectWallet = async () => {
+  try {
+      const resp = await window.solana.connect();
+      console.log("Conneted! Public Key: ", resp.publicKey.toString());
+      setUserAddress(resp.publicKey.toString())
+  } catch (err) {
+      console.log(err);
+      // => { code: 4001, message: 'User rejected the request.' }
+  }
+}; 
+
+const disconnectWallet = async () => {
+  window.solana.disconnect();
+  window.solana.on('disconnect', () => console.log("Disconnected!"));
+  setUserAddress("Disconected!")
+};
+
   
-  const sendTransaction = async () => {
+  const sendTransaction = async (event: any) => {
+    event.preventDefault();
     const provider = await getProvider(); 
     const programId = new anchor.web3.PublicKey(address_config.program_id);
     const program = new Program(idl, programId, provider);
@@ -53,7 +62,9 @@ const disconnectWallet = async () => {
     const swap_state_account= new PublicKey(address_config.swap_state);
     const token_program= new PublicKey(address_config.token_program);
     const associate_token_program=new PublicKey(address_config.associate_token_program);
-    const isUseSol = true;
+    console.log("programId: ", programId.toBase58());
+    let realAmount = Number(amountToken) * Math.pow(10, 9);
+    let amount_swap = new anchor.BN(realAmount);
     let from_token = await getAssociatedTokenAddress(
       mint_pubkey,
       wallet.publicKey
@@ -73,9 +84,9 @@ const disconnectWallet = async () => {
         mint_pubkey,
         wallet.publicKey
       );
+      realAmount = Number(amount) * LAMPORTS_PER_SOL;
+      amount_swap = new anchor.BN(realAmount);
     }
-    const amount = LAMPORTS_PER_SOL / 5;
-    const amount_swap = new anchor.BN(amount);
     console.log("wallet: ", wallet.publicKey.toBase58());
     console.log("swap_state_account: ", swap_state_account.toBase58());
     console.log("from_token: ", from_token.toBase58());
@@ -88,11 +99,9 @@ const disconnectWallet = async () => {
     console.log("SYSVAR_RENT_PUBKEY: ", SYSVAR_RENT_PUBKEY.toBase58());
     console.log("programId: ", programId.toBase58());
 
-    await program.rpc["swap"](
+    const tx =  await program.methods.swap(
       amount_swap,
-      isUseSol,
-      {
-        accounts: {
+      isUseSol).accounts( {
           user: wallet.publicKey,
           swapStateAccount: swap_state_account,
           fromTokens: from_token,
@@ -104,18 +113,52 @@ const disconnectWallet = async () => {
           associatedTokenProgram: associate_token_program,
           rent: SYSVAR_RENT_PUBKEY,
           programId: programId,
-        }, 
-        signers: [wallet],
-      });  
+        }).rpc();
+      setTxHash(tx);
+      console.log(tx);
   };
 
   return (
     <div className="App">
       <header className="App-header">
+        <h3>Warning: Connect wallet and change network to Testnet before swap</h3>
+        <h5>Thank you! ^^</h5>
+        <h5>Address: {userAddress}</h5>
         <button onClick={connectWallet}>Connect to Wallet</button>
-        <button onClick={disconnectWallet}>Disconnect</button>
-        <button onClick={sendTransaction}>Send Transaction (TODO: fix error)</button>
-      </header>
+        <button onClick={disconnectWallet}>Disconnect</button> 
+        
+        <h3> Swap Sol To Token</h3>
+        <form onSubmit={
+            (e) =>
+             {
+              setIsUseSol(true);
+              sendTransaction(e);
+          }}>
+            <label>Enter sol amount: <input 
+                type="number" 
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </label>
+            <input type="submit" />
+          </form>
+          <h3> Or Swap Token To Sol</h3>
+          <form onSubmit={
+            (e) =>
+             {
+              setIsUseSol(false);
+              sendTransaction(e);
+          }}>
+            <label>Enter token amount:  <input 
+                type="number" 
+                value={amountToken}
+                onChange={(e) => {setAmountToken(e.target.value)}}
+              />
+            </label>
+            <input type="submit" />
+          </form>
+          <h6>TxHash: {txHash}</h6>
+      </header> 
     </div>
   );
 }
