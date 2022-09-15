@@ -13,3 +13,6 @@ Solana:
  Web App:
   Start
    - cd swap-app && npm run start
+
+
+Recommend to deploy at DEV enviroment because live server is sometime crashes by free Serverless
