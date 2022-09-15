@@ -1,5 +1,5 @@
 import config from "../config.json"
-import config_swap_state_account from "../.account/swap_state.json"
+import config_swap_state_account from "../.account/swap_state_account.json"
 import config_operator_wallet from "../.account/operator_wallet.json"
 import { SystemProgram, Connection, clusterApiUrl } from "@solana/web3.js" 
 
