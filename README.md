@@ -12,7 +12,7 @@ Solana:
   
  Web App:
   Start
-   - cd swap-app && npm run start
+   - cd swap-app && yarn && yarn start
 
 
 Recommend to deploy at DEV enviroment because live server is sometime crashed by free Serverless
