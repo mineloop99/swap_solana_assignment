@@ -13,7 +13,7 @@ interface Window {
 declare let window: Window; 
 function App() {
   async function getProvider() {
-    const network = "https://explorer-api.testnet.solana.com";
+    const network = "https://api.testnet.solana.com";
     const connection = new Connection(network, "processed");
     const wallet = window.solana;
 
@@ -27,7 +27,7 @@ function App() {
   }
   const [amount, setAmount] = useState("0");
   const [amountToken, setAmountToken] = useState("0");
-  const [isUseSol, setIsUseSol] = useState(true); 
+  let isUseSol = true; 
   const [txHash, setTxHash] = useState("this is transaction hash");
   const [userAddress, setUserAddress] = useState("userAddress"); 
   const idl = JSON.parse(
@@ -87,6 +87,7 @@ const disconnectWallet = async () => {
       realAmount = Number(amount) * LAMPORTS_PER_SOL;
       amount_swap = new anchor.BN(realAmount);
     }
+    console.log("Swap Sol To Token: ", isUseSol);
     console.log("wallet: ", wallet.publicKey.toBase58());
     console.log("swap_state_account: ", swap_state_account.toBase58());
     console.log("from_token: ", from_token.toBase58());
@@ -131,7 +132,7 @@ const disconnectWallet = async () => {
         <form onSubmit={
             (e) =>
              {
-              setIsUseSol(true);
+              isUseSol = true;
               sendTransaction(e);
           }}>
             <label>Enter sol amount: <input 
@@ -146,7 +147,7 @@ const disconnectWallet = async () => {
           <form onSubmit={
             (e) =>
              {
-              setIsUseSol(false);
+              isUseSol = false;
               sendTransaction(e);
           }}>
             <label>Enter token amount:  <input 
