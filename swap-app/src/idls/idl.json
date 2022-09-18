@@ -219,6 +219,11 @@
       "code": 6004,
       "name": "TokenAddressNotMatch",
       "msg": "Token Address Not Matchs"
+    },
+    {
+      "code": 6005,
+      "name": "MintAccountNotMatch",
+      "msg": "Mint Account Not Matchs"
     }
   ],
   "metadata": {

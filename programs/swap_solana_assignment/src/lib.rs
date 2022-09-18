@@ -103,7 +103,7 @@ pub mod swap {
                     ],
                 )?;
             } else {
-                return Err(error!(ErrorCode::TokenProgramMismatch));
+                return Err(error!(ErrorCode::TokenAddressNotMatch));
             }
         }
         Ok(())
@@ -128,7 +128,7 @@ pub mod swap {
         if !swap_state_account.mint_address.eq(
             mint_account.key
         ){
-            return Err(ErrorCode::TokenAddressNotMatch.into());
+            return Err(ErrorCode::MintAccountNotMatch.into());
         }
         // Swap SOL -> Spl_Token
         if is_swap_sol_to_spl_token {
@@ -230,9 +230,9 @@ pub mod swap {
                         ctx.accounts.system_program.to_account_info().clone(),
                     ],
                     &[&[&seeds, &[bumb]]],
-                )?; 
+                )?;  
             } else {
-                return Err(error!(ErrorCode::TokenProgramMismatch));
+                return Err(error!(ErrorCode::TokenAddressNotMatch));
             }
         }
         Ok(())
@@ -308,4 +308,6 @@ pub enum ErrorCode {
     InsufficientAmount,
     #[msg("Token Address Not Matchs")]
     TokenAddressNotMatch,
+    #[msg("Mint Account Not Matchs")]
+    MintAccountNotMatch,
 }
