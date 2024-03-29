@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { AnchorProvider, Program } from '@project-serum/anchor';
 import { getAssociatedTokenAddress } from "@solana/spl-token";
-import { Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
+import { clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
 import { useState } from 'react';
 import address_config from './address_config.json';
 import './App.css';
@@ -13,10 +13,9 @@ interface Window {
 declare let window: Window; 
 function App() {
   async function getProvider() {
-    const network = "https://api.testnet.solana.com";
-    const connection = new Connection(network, "processed");
+    const connection = new Connection(clusterApiUrl("testnet"), "processed");
     const wallet = window.solana;
-
+    
     const provider = new AnchorProvider(
       connection, wallet, {
         preflightCommitment: "recent",
@@ -114,7 +113,7 @@ const disconnectWallet = async () => {
           associatedTokenProgram: associate_token_program,
           rent: SYSVAR_RENT_PUBKEY,
           programId: programId,
-        }).rpc();
+        }).rpc({skipPreflight:true});
       setTxHash(tx);
       console.log(tx);
   };
