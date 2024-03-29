@@ -13,7 +13,7 @@ interface Window {
 declare let window: Window; 
 function App() {
   async function getProvider() {
-    const connection = new Connection(clusterApiUrl("testnet"), "processed");
+    const connection = new Connection(clusterApiUrl("devnet"), "processed");
     const wallet = window.solana;
     
     const provider = new AnchorProvider(
@@ -121,7 +121,7 @@ const disconnectWallet = async () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h3>Warning: Connect wallet and change network to Testnet before swap</h3>
+        <h3>Warning: Connect wallet and change network to DEVNET before swap(DEVNET ONLY! THANK YOU)</h3>
         <h5>Thank you! ^^</h5>
         <h5>Address: {userAddress}</h5>
         <button onClick={connectWallet}>Connect to Wallet</button>
