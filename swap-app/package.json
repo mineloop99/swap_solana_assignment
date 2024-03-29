@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "ng build",
+    "build": "react-app-rewired build",
     "heroku-postbuild": "ng build --prod",
     "test": "PROD=true react-app-rewired start",
     "eject": "react-app-rewired eject"
